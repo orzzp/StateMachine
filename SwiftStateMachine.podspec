@@ -7,8 +7,8 @@
 #
 
 Pod::Spec.new do |spec|
-  spec.name         = "StateMachine"
-  spec.version      = "0.0.4"
+  spec.name         = "SwiftStateMachine"
+  spec.version      = "0.0.5"
   spec.summary      = "A short description of StateMachine."
   spec.description  = <<-DESC
                     "Swift StateMachine"
