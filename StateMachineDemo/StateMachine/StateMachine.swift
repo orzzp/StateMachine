@@ -1,23 +1,23 @@
 //
 // Created by 王自鹏 on 2020/8/27.
-// Copyright (c) 2020 ___FULLUSERNAME___. All rights reserved.
+// Copyright (c) 2020 wzp. All rights reserved.
 //
 
 import Foundation
 /// 状态
-protocol StateType: Hashable { }
+public protocol StateType: Hashable { }
 // 事件
-protocol EventType: Hashable { }
+public protocol EventType: Hashable { }
 
 /// 状态管理
-class StateMachine<S: StateType, E: EventType> {
+public class StateMachine<S: StateType, E: EventType> {
     // 状态转换
-    struct Transition<S: StateType, E: EventType> {
+    public struct Transition<S: StateType, E: EventType> {
         let event: E
         let fromState: S
         let toState: S
 
-        var desc: String {
+        public var desc: String {
             "StateMachine: transit success! from stat [\(fromState)] to state [\(toState)]"
         }
 
@@ -40,7 +40,7 @@ class StateMachine<S: StateType, E: EventType> {
     // 事件记录集合
     private var handles: [S: [E: Operation<S, E>]] = [: ]
 
-    init(_ state: S) {
+    public init(_ state: S) {
         currentState = state
     }
 
@@ -59,7 +59,7 @@ class StateMachine<S: StateType, E: EventType> {
     ///   - fromStates: 支持的转换前状态
     ///   - toState: 转换后状态
     ///   - handleClosure: 该转换成功时的回调
-    func listen(_ event: E, transit fromStates: S..., to toState: S, handleClosure: ((Transition<S, E>) -> Void)?) {
+    public func listen(_ event: E, transit fromStates: S..., to toState: S, handleClosure: ((Transition<S, E>) -> Void)?) {
         fromStates.forEach { (fromState: S) in
             listen(event, transit: fromState, to: toState, handleClosure: handleClosure)
         }
@@ -68,7 +68,7 @@ class StateMachine<S: StateType, E: EventType> {
     /// 转换状态
     /// - Parameter event: 触发事件
     /// - Throws: 异常（未监听的事件组合会返回异常）
-    func trigger(_ event: E) throws {
+    public func trigger(_ event: E) throws {
         guard let handle = handles[currentState]?[event] else {
             // 当前状态不能响应该事件
             throw NSError(domain: "StateMachine: the current state [\(currentState)] can't respond the event [\(event)]，you can add the operation use func listen()", code: 400)
